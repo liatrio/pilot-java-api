@@ -1,7 +1,14 @@
-.PHONY: build run stop test clean all
+.PHONY: build run stop test clean all setup
+
+# Set JAVA_HOME globally for all targets
+JAVA_HOME := /opt/homebrew/opt/openjdk
+export JAVA_HOME
 
 # Default target
 all: build
+
+setup:
+	@echo "JAVA_HOME set to $(JAVA_HOME)"
 
 # Build the application
 build:
