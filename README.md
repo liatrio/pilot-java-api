@@ -1,5 +1,7 @@
 # Pilot Management API
 
+[![Java CI with Gradle](https://github.com/flywheel/pilot-java-api/actions/workflows/ci.yml/badge.svg)](https://github.com/flywheel/pilot-java-api/actions/workflows/ci.yml)
+
 This is a Spring Boot application that provides REST API endpoints to manage pilot information, including their names and remaining work hours for the week.
 
 ## Prerequisites
