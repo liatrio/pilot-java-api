@@ -27,6 +27,7 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         gradle-version: wrapper
+        cache-disabled: true
           
     - name: Run Tests
       run: ./gradlew test
@@ -50,6 +51,7 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         gradle-version: wrapper
+        cache-disabled: true
           
     - name: Build with Gradle
       run: ./gradlew build -x test
