@@ -1,7 +1,7 @@
 .PHONY: build run stop test clean all setup
 
 # Set JAVA_HOME globally for all targets
-JAVA_HOME := /opt/homebrew/opt/openjdk
+JAVA_HOME := /usr/local/opt/openjdk
 export JAVA_HOME
 
 # Default target

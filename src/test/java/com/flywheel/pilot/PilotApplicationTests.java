@@ -1,3 +1,5 @@
+package com.flywheel.pilot;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.flywheel.pilot.model.Pilot;
