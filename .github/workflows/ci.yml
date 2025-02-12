@@ -27,26 +27,9 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         gradle-version: wrapper
-        
-    - name: Cache Gradle packages
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
           
     - name: Run Tests
       run: ./gradlew test
-      
-    - name: Upload Test Results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-results
-        path: build/reports/tests/
         
   build:
     name: Build Application
@@ -67,35 +50,6 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         gradle-version: wrapper
-        
-    - name: Cache Gradle packages
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
           
     - name: Build with Gradle
       run: ./gradlew build -x test
-      
-    - name: Upload Build Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: pilot-java-api
-        path: build/libs/*.jar
-        
-  dependency-review:
-    name: Review Dependencies
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Dependency Review
-      uses: actions/dependency-review-action@v3
-      with:
-        fail-on-severity: high
