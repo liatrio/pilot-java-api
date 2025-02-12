@@ -24,7 +24,7 @@ jobs:
         distribution: 'temurin'
           
     - name: Run Tests
-      run: ./gradlew test
+      run: ./gradlew test --info
         
   build:
     name: Build Application
@@ -42,4 +42,4 @@ jobs:
         distribution: 'temurin'
           
     - name: Build with Gradle
-      run: ./gradlew build -x test
+      run: ./gradlew build -x test --info
