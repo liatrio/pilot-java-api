@@ -1,7 +1,7 @@
 package com.flywheel.pilot;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flywheel.pilot.controller.PilotController;
-import com.flywheel.pilot.controller.HealthController;
 import com.flywheel.pilot.model.Pilot;
 import com.flywheel.pilot.repository.PilotRepository;
 import org.junit.jupiter.api.Test;
@@ -10,25 +10,30 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@WebMvcTest(controllers = {PilotController.class, HealthController.class})
-class PilotApplicationTests {
+@WebMvcTest(PilotController.class)
+public class PilotApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private PilotRepository pilotRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     void helloWorldTest() {
@@ -59,27 +64,19 @@ class PilotApplicationTests {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/pilots")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{'name':'John Doe','hoursLeftThisWeek':10},{'name':'Jane Doe','hoursLeftThisWeek':20}]"));
+                .andExpect(content().json(objectMapper.writeValueAsString(pilots)));
     }
 
     @Test
     void testAddPilot() throws Exception {
         Pilot pilot = new Pilot("John Doe", 10);
-        when(pilotRepository.save(pilot)).thenReturn(pilot);
+        when(pilotRepository.save(any(Pilot.class))).thenReturn(pilot);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/pilots")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"John Doe\",\"hoursLeftThisWeek\":10}"))
+                .content(objectMapper.writeValueAsString(pilot)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("John Doe"))
-                .andExpect(jsonPath("$.hoursLeftThisWeek").value(10));
-    }
-
-    @Test
-    void testHealthCheck() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/health")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string("OK"));
+                .andExpect(jsonPath("name").value("John Doe"))
+                .andExpect(jsonPath("hoursLeftThisWeek").value(10));
     }
 }

@@ -3,6 +3,7 @@ package com.flywheel.pilot.controller;
 import com.flywheel.pilot.model.Pilot;
 import com.flywheel.pilot.repository.PilotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,7 +20,8 @@ public class PilotController {
     }
 
     @PostMapping
-    public Pilot addPilot(@RequestBody Pilot pilot) {
-        return pilotRepository.save(pilot);
+    public ResponseEntity<Pilot> addPilot(@RequestBody Pilot pilot) {
+        Pilot savedPilot = pilotRepository.save(pilot);
+        return ResponseEntity.ok(savedPilot);
     }
 }
