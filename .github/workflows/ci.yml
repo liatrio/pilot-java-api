@@ -7,6 +7,7 @@ on:
       - "README.md"
 permissions:
   contents: read
+  checks: write
 
 jobs:
   test:
@@ -25,6 +26,19 @@ jobs:
           
     - name: Run Tests
       run: ./gradlew test
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: build/reports/tests/test
+
+    - name: Publish JUnit Report
+      if: always()
+      uses: mikepenz/action-junit-report@v3
+      with:
+        report_paths: 'build/test-results/test/TEST-*.xml'
         
   build:
     name: Build Application
