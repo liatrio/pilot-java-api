@@ -33,11 +33,13 @@ jobs:
         name: test-results
         path: build/reports/tests/test
 
-    - name: Publish Test Results
+    - name: Publish JUnit Report
       if: always()
-      uses: actions/upload-test-results@v2
+      uses: mikepenz/action-junit-report@v3
       with:
-        path: build/reports/tests/test
+        report_files: 'build/reports/tests/test/index.html'
+        badges: true
+        check_name: JUnit Report
         
   build:
     name: Build Application
