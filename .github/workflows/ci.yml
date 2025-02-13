@@ -25,6 +25,19 @@ jobs:
           
     - name: Run Tests
       run: ./gradlew test
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: build/reports/tests/test
+
+    - name: Publish Test Results
+      if: always()
+      uses: actions/upload-test-results@v2
+      with:
+        path: build/reports/tests/test
         
   build:
     name: Build Application
