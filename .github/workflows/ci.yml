@@ -19,7 +19,8 @@ jobs:
     
     - name: Lint Dockerfile
       uses: hadolint/hadolint-action@v2
-      with:
+      with: 
+        dockerfile: Dockerfile
 
   test:
     name: Run Tests
