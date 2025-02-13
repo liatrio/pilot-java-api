@@ -17,4 +17,4 @@ WORKDIR /workspace/app
 VOLUME /tmp
 COPY --from=build /workspace/app/build/libs/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","/workspace/app/app.jar"]
