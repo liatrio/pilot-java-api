@@ -17,13 +17,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Install hadolint
-      run: sudo apt-get install -y hadolint
-      shell: bash
-
     - name: Lint Dockerfile
-      run: hadolint Dockerfile
-      shell: bash
+      uses: hadolint/hadolint-action@v2
+      with:
 
   test:
     name: Run Tests
