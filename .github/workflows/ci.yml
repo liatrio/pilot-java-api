@@ -37,8 +37,7 @@ jobs:
       if: always()
       uses: mikepenz/action-junit-report@v3
       with:
-        report_files: 'build/reports/tests/test/index.html'
-        badges: true
+        report_paths: 'build/reports/tests/test/index.html'
         check_name: JUnit Report
         
   build:
