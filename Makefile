@@ -1,40 +1,52 @@
-.PHONY: build run stop test clean all setup
+.PHONY: build run stop test clean all setup frontend backend dev install
 
 # Set JAVA_HOME globally for all targets
 JAVA_HOME := /usr/local/opt/openjdk
 export JAVA_HOME
 
 # Default target
-all: build
+all: backend frontend
 
 setup:
 	@echo "JAVA_HOME set to $(JAVA_HOME)"
+	cd frontend && npm install
 
 # Build the application
 build:
 	./gradlew clean build
+	cd frontend && npm run build
 
-# Run the application
-run:
+# Run backend
+backend:
 	./gradlew bootRun
 
-# Stop the application (finds and kills the Spring Boot process)
+# Run frontend
+frontend:
+	cd frontend && npm start
+
+# Run both services
+dev: setup backend frontend
+
+# Stop all services
 stop:
 	@if pgrep -f "pilot-java-api.*\.jar" > /dev/null; then \
-		pkill -f "pilot-java-api.*\.jar"; \
-		echo "Application stopped"; \
-	else \
-		echo "Application is not running"; \
+	    pkill -f "pilot-java-api.*\.jar"; \
+	    echo "Backend stopped"; \
+	fi
+	@if lsof -i :3000 > /dev/null; then \
+	    kill -9 $$(lsof -t -i :3000); \
+	    echo "Frontend stopped"; \
 	fi
 
-# Run unit tests
+# Run all tests
 test:
 	./gradlew test
+	cd frontend && npm test
 
 # Clean build artifacts
 clean:
 	./gradlew clean
-	rm -rf build/
+	cd frontend && rm -rf node_modules build
 
 # Show help
 help:
