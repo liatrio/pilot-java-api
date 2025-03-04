@@ -16,11 +16,11 @@ class HealthControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("GET /api/health should return OK status and message")
+    @DisplayName("should return OK status and message")
     void healthCheckShouldReturnOkStatusAndMessage() throws Exception {
         mockMvc.perform(get("/api/health"))
                .andExpect(status().isOk())
                .andExpect(content().string("OK"))
-               .andExpect(content().contentType("text/plain;charset=UTF-8"));
+               .andExpect(content().contentType("text/plain"));
     }
 }

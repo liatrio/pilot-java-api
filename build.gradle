@@ -22,6 +22,9 @@ dependencies {
     // Documentation
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
     
+    // Jackson for ObjectMapper (if not already included)
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    
     // Testing dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
